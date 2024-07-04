@@ -27,11 +27,6 @@ test.describe("university_search_home", () => {
 		await expect(
 			page.locator(`.ded-university-search-result-container :text(targetName)`)
 		).toBeTruthy;
-
-		expectedLinkText.forEach(async (linkText) => {
-			await expect(
-				page.locator("a .ded-tab h2", { hasText: linkText })
-			).toBeVisible();
-		});
+		await expect(page.locator("a.ded-tab h2")).toHaveText(expectedLinkText);
 	});
 });
