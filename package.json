@@ -4,8 +4,8 @@
 	"description": "playwright tests",
 	"main": "index.js",
 	"scripts": {
-		"pw:staging": "npx playwright test --project=staging",
-		"pw:production": "npx playwright test --project=production"
+		"qa": "npx playwright test --project=staging",
+		"qa-prod": "npx playwright test --project=production"
 	},
 	"keywords": [],
 	"author": "",
