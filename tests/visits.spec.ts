@@ -1,36 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { exit } from "process";
-let paths: Array<{
-	uri: string;
-	tit: Array<string>;
-	order?: number;
-}> = [
-	{
-		uri: "who-we-are",
-		tit: ["team", "council", "our partners", "FAQ"],
-	},
-	{
-		uri: "take-action",
-		tit: [
-			"Contribute to Database",
-			"Start building an impact",
-			"discord",
-			"spread the word",
-		],
-	},
-	{
-		uri: "what-we-do",
-		tit: [
-			"our why",
-			"our impact",
-			"vision, mission & values",
-			"strategy & story",
-		],
-	},
-];
-console.log("DATA_TEST:  " + process.env.DATA_TEST);
-test.describe("visit main menu tabs", () => {
-	test("visit parameterised uris from cli and check if their h3 titles.", async ({
+import paths from "../fixtures/menu_uri";
+
+test.describe("Visit main menu tabs", () => {
+	test("visit parameterised uris from cli and check if their h3 titles exist.", async ({
 		page,
 	}) => {
 		const DATA_TEST = process.env.DATA_TEST;
