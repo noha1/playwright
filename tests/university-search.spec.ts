@@ -3,6 +3,7 @@ const searchText = "bri";
 const targetName = "University of the West of England, Bristol";
 const targetPath = "/data/university/20";
 const expectedLinkText = [
+	"overview",
 	"policies",
 	"financial partnerships",
 	"research partnerships",
@@ -27,11 +28,6 @@ test.describe("university_search_home", () => {
 		await expect(
 			page.locator(`.ded-university-search-result-container :text(targetName)`)
 		).toBeTruthy;
-
-		expectedLinkText.forEach(async (linkText) => {
-			await expect(
-				page.locator("a .ded-tab h2", { hasText: linkText })
-			).toBeVisible();
-		});
+		await expect(page.locator("a.ded-tab h2")).toHaveText(expectedLinkText);
 	});
 });
