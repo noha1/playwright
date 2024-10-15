@@ -1,22 +1,36 @@
 import { test, expect } from "@playwright/test";
-import paths from "../fixtures/menu_uri";
-
-test.describe("visit main menu tabs", () => {
-	test("Visit parameterised uris from cli and check if their h3 titles exist.", async ({
-		page,
-	}) => {
-		const DATA_TEST = process.env.DATA_TEST;
-		let selPath = paths.filter((path) => path.uri === DATA_TEST);
-		//one cli argument is passed
-		if (DATA_TEST) {
-			await page.goto("/" + DATA_TEST);
-			await expect(page.locator("h3")).toHaveText(selPath[0]["tit"]);
-		} else {
-			console.log("uri was not found in fixture");
-			for (const p of paths) {
-				await page.goto("/" + p.uri);
-				await expect(page.locator("h3")).toHaveText(p.tit); // to do parmeterise also h3 or h2 later if needed
+//import { test } from "@lib/test.fixtures";
+import paths from "../params/page-elements.ts";
+import unis from "../params/universities.ts";
+test.describe("Check for expected elements", () => {
+	paths.forEach(({ uri, h3, img }) => {
+		// You can also do it with test.describe() or with multiple tests as long the test name is unique.
+		test(`${uri}`, async ({ page }) => {
+	
+			await page.goto(uri);
+			if (uri !== "/who-we-are/team"){
+				await expect(page.locator(".ded-hub-item h3")).toHaveText(h3);
 			}
+			else{
+				await expect(page.getByRole('heading', { name: h3 }).first()).toBeVisible();
+				const img_result = img ? await expect(page.locator(img)).toBeTruthy(): false;
+			}
+			
+		});
+	});
+});
+
+
+
+test.describe("visit_university", () => {
+	Object.entries(unis).forEach(([universityId, universitySlug]) => {
+		if (universitySlug === null) {
+			universitySlug = universityId;
 		}
+		test(`testing ${universityId}`, async ({ page }) => {
+			await page.goto(`/data/university/${universitySlug}`);
+			const element = page.locator(".ded-breadcrumbs");
+			expect(element).toBeTruthy();
+		});
 	});
 });
